@@ -1,4 +1,5 @@
 import os, sys, json
+from PIL import Image
 
 # PyQT Module
 from PyQt5 import *
@@ -9,8 +10,6 @@ from PyQt5 import uic
 
 # PyQt Design Library
 from qt_material import QtStyleTools
-
-from PIL import Image
 
 # 분리된 Module Import
 from module import Capture, ImgProcessing, Util, FindCharacterByTag
