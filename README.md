@@ -10,10 +10,6 @@ https://www.riverbankcomputing.com/software/pyqt/intro
 
 https://github.com/UN-GCPDS/qt-material
 
-⨀ Pillow
-
-https://github.com/python-pillow/Pillow
-
 ⨀ numpy
 
 https://github.com/numpy/numpy
