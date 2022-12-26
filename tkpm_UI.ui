@@ -394,7 +394,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QComboBox" name="WindowListBox">
+  <widget class="QComboBox" name="ProcessListBox">
    <property name="geometry">
     <rect>
      <x>20</x>

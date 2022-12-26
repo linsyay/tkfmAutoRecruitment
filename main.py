@@ -15,46 +15,59 @@ from qt_material import QtStyleTools
 from module import Capture, ImgProcessing, Util, FindCharacterByTag
 
 # Qt Designer로 만든 UI 불러오기
-form_class = uic.loadUiType("tkpm_UI.ui")[0]
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
+form_class = uic.loadUiType(BASE_DIR + r"\\tkpm_UI.ui")[0]
 
-# 
+# 실행중인 Process List
 global win_list
+# 처음 실행됬을 때 None으로 초기화
 win_list = None
 
 class WindowClass(QMainWindow, QtStyleTools, form_class):
-    # Init
+    # 초기화 함수
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.set_style()
-        self.ScanWindow.clicked.connect(self.ScanWindowItem)
+        
+        # 프로세스 찾기 버튼을 클릭하면 ScanProcessList 함수를 호출
+        self.ScanWindow.clicked.connect(self.ScanProcessList)
+        # 스캔 버튼을 클릭하면 ScanAutoFiltering 함수를 호출
         self.ScanButton.clicked.connect(self.ScanAutoFiltering)
         
-    # Style
+    # QT-Material Style
     def set_style(self):
         extra = {}
         extra['font_family'] = 'Roboto'
-        extra['density_scale'] = str(0)
-        theme = 'light_pink.xml'
-        invert = True
-        self.apply_stylesheet(self, theme=theme, extra=extra, invert_secondary=invert)
+        extra['density_scale'] = str(-1)
         
+        # invert : Light themes (True is Light, False is Dark)
+        self.apply_stylesheet(self, theme='dark_pink.xml', extra=extra, invert_secondary=False)
+        
+        # 스캔 결과 Column의 Width 크기
         self.treeWidget.setColumnWidth(0, 180)
         self.treeWidget.setColumnWidth(1, 80)
         
     # 
-    def ScanWindowItem(self):
+    def ScanProcessList(self):
         global win_list
         win_list = Capture.get_win_list()
-        self.WindowListBox.clear()
+        self.ProcessListBox.clear()
         for win_item in win_list:
-            self.WindowListBox.addItem(win_item[0]) # 프로세스 드롭다운 박스에 추가
+            self.ProcessListBox.addItem(win_item[0]) # 프로세스 드롭다운 박스에 추가
     
-    # 
+    # 스캔 버튼을 클릭했을 때 실행되는 함수
     def ScanAutoFiltering(self):
-        hwnd = win_list[self.WindowListBox.currentIndex()][1]
+        # ProcessList Dropdown Box에 현재 Index를 가져옴
+        hwnd = win_list[self.ProcessListBox.currentIndex()][1]
+        
+        # 선택된 Process의 좌, 상, 우, 하의 크기를 가져옴
         x1, y1, x2, y2 = Capture.get_win_size(hwnd)
+        
+        # 가져온 이미지 정보를 바탕으로 이미지를 촬영함
         Image.fromarray(Capture.get_win_image(x1, y1, x2, y2)).save("screenshot.png", "PNG")
+        
+        # 촬영된 스크린샷에서 태그 정보를 추출해서 tag_list 변수에 담음
         tag_list = Util.RegexToKor(ImgProcessing.RootImageTrim())
         
         # 태그 오류 수정
@@ -153,11 +166,9 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
     # TreeWidget의 아이템 클릭시 ListWidget 재설정 (],)를 기준으로 함
     def SetListWidget(self, it, col):
         self.listWidget.clear()
-        print("click!")
         tagList = it.text(col).split('],')
-        if col == 2:
-            for item in tagList:
-                self.listWidget.addItem(item.lstrip("["))
+        for item in tagList:
+            self.listWidget.addItem(item.lstrip("["))
             
     # 스캔 후 Tag 변수 리스트화 및 자동 체크
     def ScanAutoButton(self, tags_num):

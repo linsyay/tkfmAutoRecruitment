@@ -8,7 +8,10 @@ def get_win_list():
         if win32gui.IsWindowEnabled(hwnd) and win32gui.IsWindowVisible(hwnd) and title:
             hwnd_list.append((title, hwnd))
         return True
+    
     output = []
+    
+    # map 함수와 비슷한 방식으로 동작
     win32gui.EnumWindows(callback, output)
     return output
 

@@ -1,4 +1,8 @@
 import re
+import os, json
+from difflib import get_close_matches
+
+from module import FindCharacterByTag
 
 def RegexToKor(tag_list):
     out = []
@@ -9,6 +13,10 @@ def RegexToKor(tag_list):
             out_tag += item
         out.append(out_tag)
     return out
+
+def findSimilarity():
+    
+    return True
 
 def nonSSRCharacter(numList):
     return numList>200
