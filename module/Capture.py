@@ -19,5 +19,5 @@ def get_win_size(hwnd):
     return left, top, right, bottom
 
 def get_win_image(x1, y1, x2, y2):
-    img = ImageGrab.grab(bbox=(x1, y1, x2, y2))
+    img = ImageGrab.grab(bbox=(x1, y1, x2, y2), all_screens=True)
     img.save('screenshot.png')
