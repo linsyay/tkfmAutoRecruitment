@@ -1,6 +1,5 @@
-module/__pycache__/
-.vscode/
+# Cache 파일
+tkauto/module/__pycache__/
 
-test.py
-
+# Screenshot 파일
 screenshot.png
