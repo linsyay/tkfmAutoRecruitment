@@ -3,6 +3,10 @@ import os, json
 from itertools import combinations
 from module import Util
 
+FILTER_NONE_SSR = 1
+FILTER_SSR = 2
+
+# 추출한 한글 태그 정보를 숫자 태그 정보로 변환 (main/WindowClass/ScanAutoFiltering)
 def FindTagNumToKor(tag_list):
     rootDir = os.path.dirname(__file__)
     korInfoDir = os.path.join(rootDir, '..\data\KorInfo.json')
@@ -13,45 +17,63 @@ def FindTagNumToKor(tag_list):
         out.append(korInfoJson.get("tags").index(tag))
     return out
 
-def FindListAll(tags_num):
+# 추출한 태그를 바탕으로 가능한 캐릭터 리스트 전부 추출
+def FindListAll(tags_num, filter):
     rootDir = os.path.dirname(__file__)
     characterTagDir = os.path.join(rootDir, '..\data\CharacterTag.json')
     with open(characterTagDir, 'r', encoding="utf-8") as f:
         characterTagJson = json.load(f)
+    
     out = []
-    for tag in tags_num:
-        out += characterTagJson.get(str(tag))
-    cleanOut = sorted(list(set(out)))
-
+    
+    # Filter 조건으로 리더 태그가 있을 때만 SSR을 검색에 포함하도록 함
+    if filter is FILTER_NONE_SSR:
+        for tag in tags_num:
+            out += characterTagJson.get(str(tag))
+        cleanOut = sorted(list(set(out))) # set으로 중복 삭제
+        cleanOut = [item for item in cleanOut if int(item) >= 200]
+    elif filter is FILTER_SSR:
+        for tag in tags_num:
+            out += characterTagJson.get(str(tag))
+        cleanOut = sorted(list(set(out))) # set으로 중복 삭제
     return cleanOut
 
-def FindCharacter(tags_num):
-    cleanList = FindListAll(tags_num)
-    
-    if 20 in cleanList:
-        tagSummonCharacterList = GetTagSummonCharacterSSR(tags_num, cleanList)
+# 추출한 태그 정보를 바탕으로 캐릭터 리스트 조회 (main/WindowClass/ScanAutoFiltering)
+def FindCharacter(tags_num): # tags_num은 추출한 태그 5개
+    # 리더, 정예 태그가 있는지로 분기
+    if 20 in tags_num: # 리더 태그가 있을 경우
+        tagSummonCharacterList = GetTagSummonCharacter(tags_num, FILTER_SSR)
+        return
     else:
-        tagSummonCharacterList = GetTagSummonCharacterNonTag(tags_num, cleanList)
-        td = GetTreeDictionaryNonTag(tagSummonCharacterList)
+        tagSummonCharacterList = GetTagSummonCharacter(tags_num, FILTER_NONE_SSR)
+        if 19 in tags_num: # 정예 태그가 있을 경우
+            return
+        else: # 정예 혹은 리더 태그가 없을 경우
+            td = GetTreeDictionaryNonTag(tagSummonCharacterList)
         
     return td
 
-def GetTagSummonCharacterSSR(tags_num, cleanList):
+def GetTagSummonCharacterSSR(tags_num):
     rootDir = os.path.dirname(__file__)
     characterInfoDir = os.path.join(rootDir, '..\data\CharacterInfo.json')
     with open(characterInfoDir, 'r', encoding="utf-8") as f:
         characterInfoJson = json.load(f)
     return
 
-def GetTagSummonCharacterNonTag(tags_num, cleanList):
+# 캐릭터와 태그의 Dictionary List 추출
+def GetTagSummonCharacter(tags_num, filter):
+    cleanList = list(FindListAll(tags_num, filter)) # 추출한 태그를 바탕으로 가능한 캐릭터 리스트 전부 추출
+    
     rootDir = os.path.dirname(__file__)
     characterInfoDir = os.path.join(rootDir, '..\data\CharacterInfo.json')
     with open(characterInfoDir, 'r', encoding="utf-8") as f:
         characterInfoJson = json.load(f)
-    nonSSRList = list(map(str, list(filter(Util.nonSSRCharacter, list(map(int, cleanList))))))
-    
+
     out = []
-    for character in nonSSRList:
+    
+    # 캐릭터와 태그의 Dictionary의 List
+    # [ {id : ~, tags: [ ~ ] }, ... ]
+    for character in cleanList:
         for characterInfo in characterInfoJson:
             if characterInfo.get("id") == str(character):
                 tagList = characterInfo.get("tags")
@@ -61,8 +83,19 @@ def GetTagSummonCharacterNonTag(tags_num, cleanList):
 
     return out
 
+# 정예 혹은 리더 태그가 없을 경우 (Tree Data)
 def GetTreeDictionaryNonTag(tagSummonCharacterList):
     out = {"DefinitiveSSR" : [], "DefinitiveSR" : [], "DefinitiveCharacter" : [], "Default" : []}
+    
+    print("tagSummonCharacterList", tagSummonCharacterList)
+    
+    # out = {"SR" : [], "NR" : []}
+    # for tsc in tagSummonCharacterList:
+    #     if (int(tsc.get("id")) < 300):
+    #         out["SR"].append(tsc)
+    #     elif (int(tsc.get("id")) > 300):
+    #         out["NR"].append(tsc)
+    # return out
     
     splitTSCL_SR = Util.FindSRCharacter(tagSummonCharacterList).get("SR")
     splitTSCL_NR = Util.FindSRCharacter(tagSummonCharacterList).get("NR")
@@ -96,7 +129,6 @@ def GetTreeDictionaryNonTag(tagSummonCharacterList):
         if len(dc.get("tags")) > 1:
             for dcTag in dc.get("tags"):
                 tagLen = min(tagLen, len(dcTag))
-                print(tagLen)
             for dcTag in dc.get("tags"):
                 if (len(dcTag) > tagLen):
                     dc.get("tags").remove(dcTag)
@@ -106,7 +138,6 @@ def GetTreeDictionaryNonTag(tagSummonCharacterList):
         if len(dc.get("tags")) > 1:
             for dcTag in dc.get("tags"):
                 tagLen = min(tagLen, len(dcTag))
-                print(tagLen)
             for dcTag in dc.get("tags"):
                 if (len(dcTag) > tagLen):
                     dc.get("tags").remove(dcTag)

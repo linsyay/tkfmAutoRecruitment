@@ -30,9 +30,9 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
         self.setupUi(self)
         self.set_style()
         
-        # 프로세스 찾기 버튼을 클릭하면 ScanProcessList 함수를 호출
+        # 프로세스 찾기 버튼을 클릭하면 ScanProcessList 함수를 호출하는 이벤트 연결
         self.ScanWindow.clicked.connect(self.ScanProcessList)
-        # 스캔 버튼을 클릭하면 ScanAutoFiltering 함수를 호출
+        # 스캔 버튼을 클릭하면 ScanAutoFiltering 함수를 호출하는 이벤트 연결
         self.ScanButton.clicked.connect(self.ScanAutoFiltering)
         
     # QT-Material Style
@@ -44,11 +44,11 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
         # invert : Light themes (True is Light, False is Dark)
         self.apply_stylesheet(self, theme='dark_pink.xml', extra=extra, invert_secondary=False)
         
-        # 스캔 결과 Column의 Width 크기
+        # 스캔 결과 Column의 Width 크기 (마지막 Column은 자동)
         self.treeWidget.setColumnWidth(0, 180)
         self.treeWidget.setColumnWidth(1, 80)
         
-    # 
+    # 현재 실행중인 프로세스의 리스트를 검색하는 함수
     def ScanProcessList(self):
         global win_list
         win_list = Capture.get_win_list()
@@ -70,15 +70,20 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
         # 촬영된 스크린샷에서 태그 정보를 추출해서 tag_list 변수에 담음
         tag_list = Util.RegexToKor(ImgProcessing.RootImageTrim())
         
-        # 태그 오류 수정
+        # 태그 오류 수정 (최적화 필요)
         for index, item in enumerate(tag_list):
-            if item == "품속성":
-                tag_list[index] = "풍속성"
+            tag_list[index] = Util.findSimilarity(item)
         
-        print(tag_list)
+        print("추출된 태그 : ", tag_list)
+        
+        # 추출한 한글 태그 정보를 숫자 태그 정보로 변환
         tags_num = FindCharacterByTag.FindTagNumToKor(tag_list)
         tags_num.sort()
+        
+        # 추출된 태그 리스트들을 프로그램 상에 체크 표시 (ScanAutoButton 함수 호출) (좌 하단 영역)
         self.ScanAutoButton(tags_num)
+        
+        # 추출한 태그 정보를 바탕으로 캐릭터 리스트 조회 (하는중)
         tagSummonCharacterList = FindCharacterByTag.FindCharacter(tags_num)
         self.SetTreeWidget(tagSummonCharacterList)
 
@@ -109,7 +114,6 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
                 for tags in tsc.get("tags"):
                     out += "["
                     for tag in tags:
-                        print(tag)
                         out += korInfoJson.get('tags')[int(tag)]
                         out += ", "
                     out = out.rstrip(", ")

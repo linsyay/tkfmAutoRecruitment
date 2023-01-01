@@ -1,8 +1,6 @@
 import re
-import os, json
-from difflib import get_close_matches
-
-from module import FindCharacterByTag
+from hangul_utils import split_syllables, join_jamos
+from symspellpy import SymSpell, Verbosity
 
 def RegexToKor(tag_list):
     out = []
@@ -14,18 +12,15 @@ def RegexToKor(tag_list):
         out.append(out_tag)
     return out
 
-def findSimilarity():
+def findSimilarity(char):
+    sym_spell = SymSpell(max_dictionary_edit_distance=3)
+    dicionary_path = "data\\tags_dictionary.txt"
+    sym_spell.load_dictionary(dicionary_path, 0, 1, encoding='utf-8')
     
-    return True
+    term = split_syllables(char)
 
-def nonSSRCharacter(numList):
-    return numList>200
+    suggestions = sym_spell.lookup(term, Verbosity.ALL, max_edit_distance=3)
 
-def FindSRCharacter(tagSummonCharacterList):
-    out = {"SR" : [], "NR" : []}
-    for tsc in tagSummonCharacterList:
-        if (int(tsc.get("id")) < 300):
-            out["SR"].append(tsc)
-        elif (int(tsc.get("id")) > 300):
-            out["NR"].append(tsc)
-    return out
+    # for sugg in suggestions:
+    #     print(sugg.term, join_jamos(sugg.term), sugg.distance, sugg.count)
+    return join_jamos(suggestions[0].term)
