@@ -1,5 +1,4 @@
 import os, sys, json
-from PIL import Image
 
 # PyQT Module
 from PyQt5 import *
@@ -66,7 +65,7 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
             x1, y1, x2, y2 = Capture.get_win_size(hwnd)
             
             # 가져온 이미지 정보를 바탕으로 이미지를 촬영함
-            Image.fromarray(Capture.get_win_image(x1, y1, x2, y2)).save("screenshot.png", "PNG")
+            Capture.get_win_image(x1, y1, x2, y2)
             
             # 촬영된 스크린샷에서 태그 정보를 추출해서 tag_list 변수에 담음
             tag_list = Util.RegexToKor(ImgProcessing.RootImageTrim())

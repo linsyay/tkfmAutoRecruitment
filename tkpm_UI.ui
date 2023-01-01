@@ -42,7 +42,7 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -60,7 +60,7 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -76,9 +76,19 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QCheckBox" name="TagBtn00">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>화속성</string>
       </property>
@@ -86,6 +96,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn01">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>수속성</string>
       </property>
@@ -93,6 +108,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn02">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>풍속성</string>
       </property>
@@ -100,6 +120,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn03">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>광속성</string>
       </property>
@@ -107,6 +132,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn04">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>암속성</string>
       </property>
@@ -123,9 +153,19 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
      <widget class="QCheckBox" name="TagBtn05">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>딜러</string>
       </property>
@@ -133,6 +173,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn06">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>탱커</string>
       </property>
@@ -140,6 +185,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn07">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>힐러</string>
       </property>
@@ -147,6 +197,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn08">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>디스럽터</string>
       </property>
@@ -154,6 +209,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn09">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>서포터</string>
       </property>
@@ -170,9 +230,19 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
      <widget class="QCheckBox" name="TagBtn10">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>인간</string>
       </property>
@@ -180,6 +250,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn11">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>마족</string>
       </property>
@@ -187,6 +262,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn12">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>야인</string>
       </property>
@@ -203,9 +283,19 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
      <widget class="QCheckBox" name="TagBtn13">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>작은 체형</string>
       </property>
@@ -213,6 +303,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn14">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>표준 체형</string>
       </property>
@@ -229,9 +324,19 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_5">
     <item>
      <widget class="QCheckBox" name="TagBtn15">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>빈유</string>
       </property>
@@ -239,6 +344,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn16">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>미유</string>
       </property>
@@ -246,6 +356,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn17">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>거유</string>
       </property>
@@ -262,9 +377,19 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_6">
     <item>
      <widget class="QCheckBox" name="TagBtn18">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>병사</string>
       </property>
@@ -272,6 +397,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn19">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>정예</string>
       </property>
@@ -279,6 +409,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn20">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>리더</string>
       </property>
@@ -295,9 +430,19 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_7">
     <item>
      <widget class="QCheckBox" name="TagBtn21">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>뎀지</string>
       </property>
@@ -305,6 +450,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn22">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>보호</string>
       </property>
@@ -312,6 +462,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn23">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>방어</string>
       </property>
@@ -319,6 +474,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn24">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>회복</string>
       </property>
@@ -326,6 +486,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn25">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>방해</string>
       </property>
@@ -333,6 +498,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn26">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>지원</string>
       </property>
@@ -349,9 +519,19 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_8">
     <item>
      <widget class="QCheckBox" name="TagBtn27">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>쇠약</string>
       </property>
@@ -359,6 +539,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn28">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>폭발</string>
       </property>
@@ -366,6 +551,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn29">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>생존</string>
       </property>
@@ -373,6 +563,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn30">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>전투</string>
       </property>
@@ -380,6 +575,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn31">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>범위</string>
       </property>
@@ -387,6 +587,11 @@
     </item>
     <item>
      <widget class="QCheckBox" name="TagBtn32">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>반격</string>
       </property>
@@ -413,6 +618,13 @@
      <height>501</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>돋움</family>
+     <pointsize>9</pointsize>
+     <underline>false</underline>
+    </font>
+   </property>
    <column>
     <property name="text">
      <string>분류</string>
@@ -432,20 +644,56 @@
     <property name="text">
      <string>[⁂SSR] 확정 조합식</string>
     </property>
+    <property name="font">
+     <font>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
    </item>
    <item>
     <property name="text">
      <string>[⁑SR] 확정 조합식</string>
+    </property>
+    <property name="font">
+     <font>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
     </property>
    </item>
    <item>
     <property name="text">
      <string>[⁑SR] 조합식</string>
     </property>
+    <property name="font">
+     <font>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </item>
    <item>
     <property name="text">
      <string>[전체] 조합식</string>
+    </property>
+    <property name="font">
+     <font>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
    </item>
   </widget>
