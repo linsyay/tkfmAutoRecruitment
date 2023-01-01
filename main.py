@@ -15,7 +15,7 @@ from module import Capture, ImgProcessing, Util, FindCharacterByTag
 
 # Qt Designer로 만든 UI 불러오기
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
-form_class = uic.loadUiType(BASE_DIR + r"\\tkpm_UI.ui")[0]
+form_class = uic.loadUiType(BASE_DIR + r"\\tkfm_UI.ui")[0]
 
 # 실행중인 Process List
 global win_list
