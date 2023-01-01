@@ -58,36 +58,39 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
     
     # 스캔 버튼을 클릭했을 때 실행되는 함수
     def ScanAutoFiltering(self):
-        # ProcessList Dropdown Box에 현재 Index를 가져옴
-        hwnd = win_list[self.ProcessListBox.currentIndex()][1]
-        
-        # 선택된 Process의 좌, 상, 우, 하의 크기를 가져옴
-        x1, y1, x2, y2 = Capture.get_win_size(hwnd)
-        
-        # 가져온 이미지 정보를 바탕으로 이미지를 촬영함
-        Image.fromarray(Capture.get_win_image(x1, y1, x2, y2)).save("screenshot.png", "PNG")
-        
-        # 촬영된 스크린샷에서 태그 정보를 추출해서 tag_list 변수에 담음
-        tag_list = Util.RegexToKor(ImgProcessing.RootImageTrim())
-        
-        # 태그 오류 수정 (최적화 필요)
-        for index, item in enumerate(tag_list):
-            tag_list[index] = Util.findSimilarity(item)
-        
-        print("추출된 태그 : ", tag_list)
-        
-        # 추출한 한글 태그 정보를 숫자 태그 정보로 변환
-        tags_num = FindCharacterByTag.FindTagNumToKor(tag_list)
-        tags_num.sort()
-        
-        # 추출된 태그 리스트들을 프로그램 상에 체크 표시 (ScanAutoButton 함수 호출) (좌 하단 영역)
-        self.ScanAutoButton(tags_num)
-        
-        # 추출한 태그 정보를 바탕으로 캐릭터 리스트 조회
-        tagSummonCharacterList = FindCharacterByTag.FindCharacter(tags_num)
-        
-        # 완성된 Tree Data를 바탕으로 Tree Widget으로 출력
-        self.SetTreeWidget(tagSummonCharacterList)
+        try:
+            # ProcessList Dropdown Box에 현재 Index를 가져옴
+            hwnd = win_list[self.ProcessListBox.currentIndex()][1]
+            
+            # 선택된 Process의 좌, 상, 우, 하의 크기를 가져옴
+            x1, y1, x2, y2 = Capture.get_win_size(hwnd)
+            
+            # 가져온 이미지 정보를 바탕으로 이미지를 촬영함
+            Image.fromarray(Capture.get_win_image(x1, y1, x2, y2)).save("screenshot.png", "PNG")
+            
+            # 촬영된 스크린샷에서 태그 정보를 추출해서 tag_list 변수에 담음
+            tag_list = Util.RegexToKor(ImgProcessing.RootImageTrim())
+            
+            # 태그 오류 수정 (최적화 필요)
+            for index, item in enumerate(tag_list):
+                tag_list[index] = Util.findSimilarity(item)
+            
+            print("추출된 태그 : ", tag_list)
+            
+            # 추출한 한글 태그 정보를 숫자 태그 정보로 변환
+            tags_num = FindCharacterByTag.FindTagNumToKor(tag_list)
+            tags_num.sort()
+            
+            # 추출된 태그 리스트들을 프로그램 상에 체크 표시 (ScanAutoButton 함수 호출) (좌 하단 영역)
+            self.ScanAutoButton(tags_num)
+            
+            # 추출한 태그 정보를 바탕으로 캐릭터 리스트 조회
+            tagSummonCharacterList = FindCharacterByTag.FindCharacter(tags_num)
+            
+            # 완성된 Tree Data를 바탕으로 Tree Widget으로 출력
+            self.SetTreeWidget(tagSummonCharacterList)
+        except:
+            QMessageBox.warning(self, 'Warning', '스캔 과정에서 오류가 발생하였습니다')
 
     # 완성된 Tree Data를 바탕으로 Tree Widget으로 출력
     def SetTreeWidget(self, tagSummonCharacterList):
@@ -98,8 +101,6 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
         
         # 스캔 후 TreeWidget 재설정 (초기화)
         self.ClearTreeWidget()
-        
-        print(tagSummonCharacterList["DefinitiveSSR"])
         
         # SSR 확정 조합식
         if len(tagSummonCharacterList["DefinitiveSSR"]) > 0:
@@ -116,6 +117,7 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
                         out += ", "
                     out = out.rstrip(", ")
                     out += "], "
+                out = out.rstrip(', ')
                 itemZero.setText(2, out)
         
         # SR 확정 조합식
@@ -124,15 +126,7 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
                 treeOne = self.treeWidget.topLevelItem(1)
                 itemOne = QTreeWidgetItem(treeOne)
                 itemOne.setText(0, korInfoJson.get('name').get(tsc.get("id")))
-                
-                if (int(tsc.get("id")) < 200):
-                    itemOne.setText(1, "⁂ SSR")
-                elif (int(tsc.get("id")) < 300):
-                    itemOne.setText(1, "⁑ SR")
-                elif (int(tsc.get("id")) < 400):
-                    itemOne.setText(1, "⁎ R")
-                elif (int(tsc.get("id")) < 500):
-                    itemOne.setText(1, "N")
+                itemOne.setText(1, "⁑ SR")
                 out = ''
                 for tags in tsc.get("tags"):
                     out += "["
@@ -141,6 +135,7 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
                         out += ", "
                     out = out.rstrip(", ")
                     out += "], "
+                out = out.rstrip(', ')
                 itemOne.setText(2, out)
                 
         # SR 조합식
@@ -149,15 +144,7 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
                 treeTwo = self.treeWidget.topLevelItem(2)
                 itemTwo = QTreeWidgetItem(treeTwo)
                 itemTwo.setText(0, korInfoJson.get('name').get(tsc.get("id")))
-                
-                if (int(tsc.get("id")) < 200):
-                    itemTwo.setText(1, "⁂ SSR")
-                elif (int(tsc.get("id")) < 300):
-                    itemTwo.setText(1, "⁑ SR")
-                elif (int(tsc.get("id")) < 400):
-                    itemTwo.setText(1, "⁎ R")
-                elif (int(tsc.get("id")) < 500):
-                    itemTwo.setText(1, "N")
+                itemTwo.setText(1, "⁑ SR")
                 out = ''
                 for tags in tsc.get("tags"):
                     out += "["
@@ -165,6 +152,7 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
                         out += korInfoJson.get('tags')[int(tag)] + ", "
                     out = out.rstrip(", ")
                     out += "], "
+                out = out.rstrip(', ')
                 itemTwo.setText(2, out)
         
         # 전체 조합식
@@ -188,14 +176,6 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
                 out = out.rstrip(", ")
                 itemThree.setText(2, out)
                 
-        self.treeWidget.itemClicked.connect(self.SetListWidget)
-    
-    # TreeWidget의 아이템 클릭시 ListWidget 재설정 (],)를 기준으로 함
-    def SetListWidget(self, it, col):
-        self.listWidget.clear()
-        tagList = it.text(col).split('],')
-        for item in tagList:
-            self.listWidget.addItem(item.lstrip("["))
             
     # 스캔 후 Tag 변수 리스트화 및 자동 체크
     def ScanAutoButton(self, tags_num):

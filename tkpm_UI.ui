@@ -410,7 +410,7 @@
      <x>530</x>
      <y>20</y>
      <width>511</width>
-     <height>411</height>
+     <height>501</height>
     </rect>
    </property>
    <column>
@@ -448,16 +448,6 @@
      <string>[전체] 조합식</string>
     </property>
    </item>
-  </widget>
-  <widget class="QListWidget" name="listWidget">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>460</y>
-     <width>511</width>
-     <height>61</height>
-    </rect>
-   </property>
   </widget>
  </widget>
  <resources/>

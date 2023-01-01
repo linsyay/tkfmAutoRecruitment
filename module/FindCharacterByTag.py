@@ -187,7 +187,6 @@ def GetTreeDictionarySSRTag(tagSummonCharacterList):
             if 20 in item:
                 subsets.append({"id" : tsc_ssr_main.get("id"), "tags" : [item]})
         
-    print("ss", subsets)
     out["DefinitiveSSR"] = subsets
 
     out["Default"] = tagSummonCharacterList
