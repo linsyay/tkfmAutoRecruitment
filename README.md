@@ -1,4 +1,4 @@
-## tkpmAutoRecruitment
+## tkfmAutoRecruitment
 
 This can make TenkafuMA Recruitment automatically (Only Korean)
 
