@@ -2,26 +2,26 @@
 This can make TenkafuMA Recruitment automatically (Only Korean)
 
 # Libraries
-## PyQt5
++ PyQt5
 
 https://www.riverbankcomputing.com/software/pyqt/intro
 
-## qt-material
++ qt-material
 
 https://github.com/UN-GCPDS/qt-material
 
-## numpy
++ numpy
 
 https://github.com/numpy/numpy
 
-## TesseractOCR
++ TesseractOCR
 
 https://github.com/UB-Mannheim/tesseract
 
-## pytesseract
++ pytesseract
 
 https://github.com/madmaze/pytesseract
 
-## opencv
++ opencv
 
 https://opencv.org/
