@@ -83,19 +83,42 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
         # 추출된 태그 리스트들을 프로그램 상에 체크 표시 (ScanAutoButton 함수 호출) (좌 하단 영역)
         self.ScanAutoButton(tags_num)
         
-        # 추출한 태그 정보를 바탕으로 캐릭터 리스트 조회 (하는중)
+        # 추출한 태그 정보를 바탕으로 캐릭터 리스트 조회
         tagSummonCharacterList = FindCharacterByTag.FindCharacter(tags_num)
+        
+        # 완성된 Tree Data를 바탕으로 Tree Widget으로 출력
         self.SetTreeWidget(tagSummonCharacterList)
 
+    # 완성된 Tree Data를 바탕으로 Tree Widget으로 출력
     def SetTreeWidget(self, tagSummonCharacterList):
         rootDir = os.path.dirname(__file__)
         korInfoDir = os.path.join(rootDir, '.\data\KorInfo.json')
         with open(korInfoDir, 'r', encoding="utf-8") as f:
             korInfoJson = json.load(f)
         
+        # 스캔 후 TreeWidget 재설정 (초기화)
         self.ClearTreeWidget()
         
-        # 확정 SR, Tree 작업 완료
+        print(tagSummonCharacterList["DefinitiveSSR"])
+        
+        # SSR 확정 조합식
+        if len(tagSummonCharacterList["DefinitiveSSR"]) > 0:
+            for tsc in tagSummonCharacterList["DefinitiveSSR"]:
+                treeZero = self.treeWidget.topLevelItem(0)
+                itemZero = QTreeWidgetItem(treeZero)
+                itemZero.setText(0, korInfoJson.get('name').get(tsc.get("id")))
+                itemZero.setText(1, "⁂ SSR")
+                out = ''
+                for tags in tsc.get("tags"):
+                    out += "["
+                    for tag in tags:
+                        out += korInfoJson.get('tags')[int(tag)]
+                        out += ", "
+                    out = out.rstrip(", ")
+                    out += "], "
+                itemZero.setText(2, out)
+        
+        # SR 확정 조합식
         if len(tagSummonCharacterList["DefinitiveSR"]) > 0:
             for tsc in tagSummonCharacterList["DefinitiveSR"]:
                 treeOne = self.treeWidget.topLevelItem(1)
@@ -120,7 +143,7 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
                     out += "], "
                 itemOne.setText(2, out)
                 
-        # 확정 캐릭터 (SR), Tree 작업 완료
+        # SR 조합식
         if len(tagSummonCharacterList["DefinitiveCharacter"]) > 0:
             for tsc in tagSummonCharacterList["DefinitiveCharacter"]:
                 treeTwo = self.treeWidget.topLevelItem(2)
@@ -144,7 +167,7 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
                     out += "], "
                 itemTwo.setText(2, out)
         
-        # 확정 X, Tree 작업 완료
+        # 전체 조합식
         if len(tagSummonCharacterList["Default"]) > 0:
             for tsc in tagSummonCharacterList["Default"]:
                 treeThree = self.treeWidget.topLevelItem(3)
@@ -189,9 +212,9 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
         for tag in tags_num:
             tagButtonList[tag].setCheckState(2)
     
-    # 스캔 후 TreeWidget 재설정
+    # 스캔 후 TreeWidget 재설정 (초기화)
     def ClearTreeWidget(self):
-        treeWidgetTextList = ["확정 SSR", "확정 SR", "확정 캐릭터", "조합식"]
+        treeWidgetTextList = ["[⁂SSR] 확정 조합식", "[⁑SR] 확정 조합식", "[⁑SR] 조합식", "[전체] 조합식"]
         self.treeWidget.clear()
         
         for index in range(0, 4):

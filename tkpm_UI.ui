@@ -410,7 +410,7 @@
      <x>530</x>
      <y>20</y>
      <width>511</width>
-     <height>291</height>
+     <height>411</height>
     </rect>
    </property>
    <column>
@@ -430,22 +430,22 @@
    </column>
    <item>
     <property name="text">
-     <string>확정 SSR</string>
+     <string>[⁂SSR] 확정 조합식</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>확정 SR</string>
+     <string>[⁑SR] 확정 조합식</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>확정 캐릭터</string>
+     <string>[⁑SR] 조합식</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>조합식</string>
+     <string>[전체] 조합식</string>
     </property>
    </item>
   </widget>
@@ -453,9 +453,9 @@
    <property name="geometry">
     <rect>
      <x>530</x>
-     <y>330</y>
+     <y>460</y>
      <width>511</width>
-     <height>191</height>
+     <height>61</height>
     </rect>
    </property>
   </widget>

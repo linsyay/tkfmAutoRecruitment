@@ -1,7 +1,6 @@
 import os, json
 
 from itertools import combinations
-from module import Util
 
 FILTER_NONE_SSR = 1
 FILTER_SSR = 2
@@ -43,25 +42,18 @@ def FindCharacter(tags_num): # tags_num은 추출한 태그 5개
     # 리더, 정예 태그가 있는지로 분기
     if 20 in tags_num: # 리더 태그가 있을 경우
         tagSummonCharacterList = GetTagSummonCharacter(tags_num, FILTER_SSR)
-        return
-    else:
+        td = GetTreeDictionarySSRTag(tagSummonCharacterList)
+    else: # 리더 태그가 없을 경우
         tagSummonCharacterList = GetTagSummonCharacter(tags_num, FILTER_NONE_SSR)
-        if 19 in tags_num: # 정예 태그가 있을 경우
-            return
-        else: # 정예 혹은 리더 태그가 없을 경우
-            td = GetTreeDictionaryNonTag(tagSummonCharacterList)
-        
-    return td
+        td = GetTreeDictionaryNonTag(tagSummonCharacterList)
 
-def GetTagSummonCharacterSSR(tags_num):
-    rootDir = os.path.dirname(__file__)
-    characterInfoDir = os.path.join(rootDir, '..\data\CharacterInfo.json')
-    with open(characterInfoDir, 'r', encoding="utf-8") as f:
-        characterInfoJson = json.load(f)
-    return
+    return td
 
 # 캐릭터와 태그의 Dictionary List 추출
 def GetTagSummonCharacter(tags_num, filter):
+    # 부분집합 떄문에 강제 설정한 태그 지워야함
+    # tags_num = [3, 4, 8, 9, 17]
+    
     cleanList = list(FindListAll(tags_num, filter)) # 추출한 태그를 바탕으로 가능한 캐릭터 리스트 전부 추출
     
     rootDir = os.path.dirname(__file__)
@@ -83,65 +75,120 @@ def GetTagSummonCharacter(tags_num, filter):
 
     return out
 
-# 정예 혹은 리더 태그가 없을 경우 (Tree Data)
+# 리더 태그가 없을 경우 (Tree Data)
 def GetTreeDictionaryNonTag(tagSummonCharacterList):
     out = {"DefinitiveSSR" : [], "DefinitiveSR" : [], "DefinitiveCharacter" : [], "Default" : []}
     
-    print("tagSummonCharacterList", tagSummonCharacterList)
-    
-    # out = {"SR" : [], "NR" : []}
-    # for tsc in tagSummonCharacterList:
-    #     if (int(tsc.get("id")) < 300):
-    #         out["SR"].append(tsc)
-    #     elif (int(tsc.get("id")) > 300):
-    #         out["NR"].append(tsc)
-    # return out
-    
-    splitTSCL_SR = Util.FindSRCharacter(tagSummonCharacterList).get("SR")
-    splitTSCL_NR = Util.FindSRCharacter(tagSummonCharacterList).get("NR")
-    
+    # SR 확정식 검색을 위해 SR를 따로 분리 (SplitTagSummonCharacterList)
+    SplitTSCL = {"SR" : [], "NR" : []}
+    for tsc in tagSummonCharacterList:
+        if (int(tsc.get("id")) < 300):
+            SplitTSCL["SR"].append(tsc)
+        elif (int(tsc.get("id")) >= 300):
+            SplitTSCL["NR"].append(tsc)
+
     subsets = []
-    for tsc_sr in splitTSCL_SR:
+    
+    # SR 확정식 검색을 위해 SR List를 하나씩 돌아가면서 NR과 겹치지 않는지 확인
+    for tsc_sr in SplitTSCL.get("SR"):
+        # SR 캐릭터의 태그의 부분집합을 구함
         tsc_sr_subsets = list(combinations(tsc_sr.get("tags"), 1)) + list(combinations(tsc_sr.get("tags"), 2)) + list(combinations(tsc_sr.get("tags"), 3))
         
-        for tsc_nr in splitTSCL_NR:
+        # NR 캐릭터의 태그의 부분집합을 하나씩 돌아가면서 구함
+        for tsc_nr in SplitTSCL.get("NR"):
+            # 부분집합 구하기
             tsc_nr_subsets = list(combinations(tsc_nr.get("tags"), 1)) + list(combinations(tsc_nr.get("tags"), 2)) + list(combinations(tsc_nr.get("tags"), 3))
-            
+            # 차집합이 존재하는지 확인
             tsc_sr_subsets = list(set(tsc_sr_subsets).difference(tsc_nr_subsets))
         
+        # 차집합이 존재한다면 SR 확정식으로 간주하여 subsets 리스트에 추가함
         if len(tsc_sr_subsets) > 0:
             subsets.append({"id" : tsc_sr.get("id"), "tags" : tsc_sr_subsets})
-    
-    for subset_main in subsets:
-        overlapSubset = False
-        for subset_sub in subsets:
-            if subset_main != subset_sub:
-                if len(list(set(subset_main.get("tags")).intersection(subset_sub.get("tags")))) > 0:
-                    out["DefinitiveSR"].append(subset_main)
-                    overlapSubset = True
-                    break
-        if overlapSubset is False:
-            out["DefinitiveCharacter"].append(subset_main)
             
-    # 태그가 여러개일 경우 태그 삭제 방지를 위해 가장 적은 개수의 태그만 남김
-    for dc in out["DefinitiveSR"]:
-        tagLen = 5
-        if len(dc.get("tags")) > 1:
-            for dcTag in dc.get("tags"):
-                tagLen = min(tagLen, len(dcTag))
-            for dcTag in dc.get("tags"):
-                if (len(dcTag) > tagLen):
-                    dc.get("tags").remove(dcTag)
+    print(subsets)
     
-    for dc in out["DefinitiveCharacter"]:
-        tagLen = 5
-        if len(dc.get("tags")) > 1:
-            for dcTag in dc.get("tags"):
-                tagLen = min(tagLen, len(dcTag))
-            for dcTag in dc.get("tags"):
-                if (len(dcTag) > tagLen):
-                    dc.get("tags").remove(dcTag)
+    # 확정식을 넣어 둔 subsets 리스트를 하나씩 돌아가면서 확정 SR식인지 확정 캐릭터식인지 체크
+    for item_main in subsets:
+        overlapSubset = False
+        for tags in item_main.get("tags"):
+            for item_sub in subsets:
+                if item_main != item_sub:
+                    if len(list(set([tags, ]).intersection(item_sub.get("tags")))) > 0:
+                        out["DefinitiveSR"].append({"id" : item_main.get("id"), "tags" : [tags]})
+                        overlapSubset = True
+                        break
+            if overlapSubset is False:
+                out["DefinitiveCharacter"].append({"id" : item_main.get("id"), "tags" : [tags]})
     
     out["Default"] = tagSummonCharacterList
     print(out)
+    return out
+
+# 리더 태그가 있을 경우 (Tree Data)
+def GetTreeDictionarySSRTag(tagSummonCharacterList):
+    out = {"DefinitiveSSR" : [], "DefinitiveSR" : [], "DefinitiveCharacter" : [], "Default" : []}
+    
+    # SR 확정식 검색을 위해 SR를 따로 분리, SSR 리스트도 따로 분리 (SplitTagSummonCharacterList)
+    SplitTSCL = {"SSR" : [], "SR" : [], "NR" : []}
+    for tsc in tagSummonCharacterList:
+        if (int(tsc.get("id")) < 200):
+            SplitTSCL["SSR"].append(tsc)
+        if (int(tsc.get("id")) >= 200) and (int(tsc.get("id")) < 300):
+            SplitTSCL["SR"].append(tsc)
+        elif (int(tsc.get("id")) >= 300):
+            SplitTSCL["NR"].append(tsc)
+
+    subsets = []
+    
+    # SR 확정식 검색을 위해 SR List를 하나씩 돌아가면서 NR과 겹치지 않는지 확인
+    for tsc_sr in SplitTSCL.get("SR"):
+        # SR 캐릭터의 태그의 부분집합을 구함
+        tsc_sr_subsets = list(combinations(tsc_sr.get("tags"), 1)) + list(combinations(tsc_sr.get("tags"), 2)) + list(combinations(tsc_sr.get("tags"), 3))
+        
+        # NR 캐릭터의 태그의 부분집합을 하나씩 돌아가면서 구함
+        for tsc_nr in SplitTSCL.get("NR"):
+            # 부분집합 구하기
+            tsc_nr_subsets = list(combinations(tsc_nr.get("tags"), 1)) + list(combinations(tsc_nr.get("tags"), 2)) + list(combinations(tsc_nr.get("tags"), 3))
+            # 차집합이 존재하는지 확인
+            tsc_sr_subsets = list(set(tsc_sr_subsets).difference(tsc_nr_subsets))
+        
+        # 차집합이 존재한다면 SR 확정식으로 간주하여 subsets 리스트에 추가함
+        if len(tsc_sr_subsets) > 0:
+            subsets.append({"id" : tsc_sr.get("id"), "tags" : tsc_sr_subsets})
+    
+    # 확정식을 넣어 둔 subsets 리스트를 하나씩 돌아가면서 확정 SR식인지 확정 캐릭터식인지 체크
+    for item_main in subsets:
+        overlapSubset = False
+        for tags in item_main.get("tags"):
+            for item_sub in subsets:
+                if item_main != item_sub:
+                    if len(list(set([tags, ]).intersection(item_sub.get("tags")))) > 0:
+                        out["DefinitiveSR"].append({"id" : item_main.get("id"), "tags" : [tags]})
+                        overlapSubset = True
+                        break
+            if overlapSubset is False:
+                out["DefinitiveCharacter"].append({"id" : item_main.get("id"), "tags" : [tags]})
+    
+    subsets.clear()
+    
+    # SSR 확정식 체크
+    for tsc_ssr_main in SplitTSCL.get("SSR"):
+        tsc_ssr_main_subsets = list(combinations(tsc_ssr_main.get("tags"), 1)) + list(combinations(tsc_ssr_main.get("tags"), 2)) + list(combinations(tsc_ssr_main.get("tags"), 3))
+        
+        for tsc_ssr_sub in SplitTSCL.get("SSR"):
+            if tsc_ssr_main != tsc_ssr_sub:
+                # 부분집합 구하기
+                tsc_ssr_sub_subsets = list(combinations(tsc_ssr_sub.get("tags"), 1)) + list(combinations(tsc_ssr_sub.get("tags"), 2)) + list(combinations(tsc_ssr_sub.get("tags"), 3))
+                # 차집합이 존재하는지 확인
+                tsc_ssr_main_subsets = list(set(tsc_ssr_main_subsets).difference(tsc_ssr_sub_subsets))
+        
+        # 차집합이 존재한다면 SSR 확정식으로 간주하여 subsets 리스트에 추가함
+        for item in tsc_ssr_main_subsets:
+            if 20 in item:
+                subsets.append({"id" : tsc_ssr_main.get("id"), "tags" : [item]})
+        
+    print("ss", subsets)
+    out["DefinitiveSSR"] = subsets
+
+    out["Default"] = tagSummonCharacterList
     return out
