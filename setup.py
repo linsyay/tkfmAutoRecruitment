@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 def get_requirements(path):
     reqs = []
     try:
-        with open(path, 'r') as f:
+        with open(path, 'r', encoding="utf-16") as f:
             reqs =  f.read().split()
         return reqs
     except Exception:
@@ -22,5 +22,8 @@ setup(
     url='https://github.com/HappyDarling/tkfmAutoRecruitment',
     install_requires=get_requirements(path='requirements.txt'),
     packages=find_packages(),
+    package_data={'tkauto': ['data/*.json', 'data/*.txt', 'tkfm_UI.ui']},
+    # data_files=[('', ['tkauto\\data\\CharacterInfo.json', 'tkauto\\data\\CharacterTag.json', 'tkauto\\data\\KorInfo.json', 'tkauto\\data\\tags_dictionary.txt']), ('', ['tkauto\\tkfm_UI.ui'])],
+    include_package_data = True,
     python_requires='==3.7.*',
 )

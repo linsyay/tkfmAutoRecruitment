@@ -7,8 +7,8 @@ This can make TenkafuMA Recruitment automatically (Only Korean)
 - PyQt5  
   https://www.riverbankcomputing.com/software/pyqt/intro
 
-- qt-material  
-  https://github.com/UN-GCPDS/qt-material
+- qdarkstyle
+  https://github.com/ColinDuquesnoy/QDarkStyleSheet
 
 - TesseractOCR  
   https://github.com/tesseract-ocr/tesseract
