@@ -1,4 +1,4 @@
-import re
+import os, re
 from hangul_utils import split_syllables, join_jamos
 from symspellpy import SymSpell, Verbosity
 
@@ -14,7 +14,8 @@ def RegexToKor(tag_list):
 
 def findSimilarity(char):
     sym_spell = SymSpell(max_dictionary_edit_distance=3)
-    dicionary_path = "data\\tags_dictionary.txt"
+    rootDir = os.path.dirname(__file__)
+    dicionary_path = os.path.join(rootDir, 'data\\tags_dictionary.txt')
     sym_spell.load_dictionary(dicionary_path, 0, 1, encoding='utf-8')
     
     term = split_syllables(char)

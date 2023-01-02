@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-with open("./tkauto/README.md", "r") as fh:
+with open("README.md", "r") as fh:
     long_description = fh.read()
 
 def get_requirements(path):
@@ -20,7 +20,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url='https://github.com/HappyDarling/tkfmAutoRecruitment',
-    install_requires=get_requirements(path='./tkauto/requirements.txt'),
+    install_requires=get_requirements(path='requirements.txt'),
     packages=find_packages(),
     python_requires='==3.7.*',
 )

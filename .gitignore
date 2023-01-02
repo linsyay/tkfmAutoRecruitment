@@ -1,5 +1,5 @@
 # Cache 파일
-tkauto/module/__pycache__/
+__pycache__/
 
 # Screenshot 파일
 screenshot.png

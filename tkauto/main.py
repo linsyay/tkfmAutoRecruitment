@@ -11,7 +11,7 @@ from PyQt5 import uic
 from qt_material import QtStyleTools
 
 # 분리된 Module Import
-from module import Capture, ImgProcessing, Util, FindCharacterByTag
+import Capture, ImgProcessing, Util, FindCharacterByTag
 
 # Qt Designer로 만든 UI 불러오기
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
@@ -94,7 +94,7 @@ class WindowClass(QMainWindow, QtStyleTools, form_class):
     # 완성된 Tree Data를 바탕으로 Tree Widget으로 출력
     def SetTreeWidget(self, tagSummonCharacterList):
         rootDir = os.path.dirname(__file__)
-        korInfoDir = os.path.join(rootDir, '.\data\KorInfo.json')
+        korInfoDir = os.path.join(rootDir, 'data\\KorInfo.json')
         with open(korInfoDir, 'r', encoding="utf-8") as f:
             korInfoJson = json.load(f)
         
