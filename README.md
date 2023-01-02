@@ -2,12 +2,25 @@
 
 This can make TenkafuMA Recruitment automatically (Only Korean)
 
-## Library
+## 설치 방법
+1. 파이썬 3.7.0 설치 (반드시 PATH 체크박스 선택)  
+
+2. Tesseract-OCR 설치 (C:\Program Files\Tesseract-OCR\tesseract)  
+
+3. tkauto 파이썬 패키지 설치
+    ```
+    pip install tkauto
+    ```
+    
+4. 
+
+
+## 라이브러리  
 
 - PyQt5  
   https://www.riverbankcomputing.com/software/pyqt/intro
 
-- qdarkstyle
+- qdarkstyle  
   https://github.com/ColinDuquesnoy/QDarkStyleSheet
 
 - TesseractOCR  
