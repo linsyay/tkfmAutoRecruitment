@@ -3,3 +3,8 @@ __pycache__/
 
 # Screenshot 파일
 screenshot.png
+
+# setup
+build/
+dist/
+tkauto.egg-info/
