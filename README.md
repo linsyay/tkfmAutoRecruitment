@@ -29,7 +29,7 @@ This can make TenkafuMA Recruitment automatically (Only Korean)
     > ```
     > ![image](https://user-images.githubusercontent.com/85004072/210209947-ba8ffb57-f12f-4a84-833b-ee96fc3b2e5a.png)
 5. ( [본인의 파이썬 설치 경로] \ Lib \ site-packages \ tkauto ) 안의 main.py 실행
-    > C:\Users\[ 개인마다 다름 ]\AppData\Local\Programs\Python\Python37\Lib\site-packages\tkauto 경로로 이동
+    > C:\Users\\[ 개인마다 다름 ]\AppData\Local\Programs\Python\Python37\Lib\site-packages\tkauto 경로로 이동
     >
     > 폴더 경로를 한번 클릭해서 전부 지운 다음 cmd를 입력
     >
