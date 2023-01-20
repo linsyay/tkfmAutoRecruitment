@@ -21,7 +21,7 @@ install_requires = [
 
 setup(
     name='tkauto',
-    version='1.0.2',
+    version='1.0.3',
     author='HappyDarling',
     description='Tenkafuma Auto Recruitment KOR',
     long_description_content_type="text/markdown",
