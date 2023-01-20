@@ -8,7 +8,7 @@ FILTER_SSR = 2
 # 추출한 한글 태그 정보를 숫자 태그 정보로 변환 (main/WindowClass/ScanAutoFiltering)
 def FindTagNumToKor(tag_list):
     rootDir = os.path.dirname(__file__)
-    korInfoDir = os.path.join(rootDir, 'data\\KorInfo.json')
+    korInfoDir = os.path.join(rootDir, '..\\data\\KorInfo.json')
     with open(korInfoDir, 'r', encoding="utf-8") as f:
         korInfoJson = json.load(f)
     out = []
@@ -19,7 +19,7 @@ def FindTagNumToKor(tag_list):
 # 추출한 태그를 바탕으로 가능한 캐릭터 리스트 전부 추출
 def FindListAll(tags_num, filter):
     rootDir = os.path.dirname(__file__)
-    characterTagDir = os.path.join(rootDir, 'data\\CharacterTag.json')
+    characterTagDir = os.path.join(rootDir, '..\\data\\CharacterTag.json')
     with open(characterTagDir, 'r', encoding="utf-8") as f:
         characterTagJson = json.load(f)
     
@@ -57,7 +57,7 @@ def GetTagSummonCharacter(tags_num, filter):
     cleanList = list(FindListAll(tags_num, filter)) # 추출한 태그를 바탕으로 가능한 캐릭터 리스트 전부 추출
     
     rootDir = os.path.dirname(__file__)
-    characterInfoDir = os.path.join(rootDir, 'data\\CharacterInfo.json')
+    characterInfoDir = os.path.join(rootDir, '..\\data\\CharacterInfo.json')
     with open(characterInfoDir, 'r', encoding="utf-8") as f:
         characterInfoJson = json.load(f)
 

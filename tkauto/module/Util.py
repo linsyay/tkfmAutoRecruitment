@@ -15,7 +15,7 @@ def RegexToKor(tag_list):
 def findSimilarity(char):
     sym_spell = SymSpell(max_dictionary_edit_distance=3)
     rootDir = os.path.dirname(__file__)
-    dicionary_path = os.path.join(rootDir, 'data\\tags_dictionary.txt')
+    dicionary_path = os.path.join(rootDir, '..\\data\\tags_dictionary.txt')
     sym_spell.load_dictionary(dicionary_path, 0, 1, encoding='utf-8')
     
     term = split_syllables(char)

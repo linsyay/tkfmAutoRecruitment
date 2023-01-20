@@ -11,7 +11,7 @@ from PyQt5 import uic
 import qdarkstyle
 
 # 분리된 Module Import
-import Capture, ImgProcessing, Util, FindCharacterByTag
+from module import Capture, ImgProcessing, Util, FindCharacterByTag
 
 # Qt Designer로 만든 UI 불러오기
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 

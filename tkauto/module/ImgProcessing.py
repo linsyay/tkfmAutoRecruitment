@@ -1,7 +1,7 @@
 import cv2
 # print(cv2.__file__)
 
-import TesseractOCR
+from module import TesseractOCR
 
 def RootImageTrim():
     img = cv2.imread('screenshot.png')
