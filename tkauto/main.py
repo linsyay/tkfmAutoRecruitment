@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
 # PyQt Design Library
-import qdarkstyle
+from qt_material import QtStyleTools
 
 # 분리된 Module Import
 from module import Capture, ImgProcessing, Util, FindCharacterByTag
@@ -22,7 +22,7 @@ global win_list
 # 처음 실행됬을 때 None으로 초기화
 win_list = None
 
-class WindowClass(QMainWindow, form_class):
+class WindowClass(QMainWindow, QtStyleTools,form_class):
     # 초기화 함수
     def __init__(self):
         super().__init__()
@@ -36,6 +36,13 @@ class WindowClass(QMainWindow, form_class):
         
     # QT-Material Style
     def set_style(self):
+        extra = {}
+        extra['font_family'] = 'Roboto'
+        extra['density_scale'] = str(-1)
+
+        # invert : Light themes (True is Light, False is Dark)
+        self.apply_stylesheet(self, theme='dark_pink.xml', extra=extra, invert_secondary=False)
+        
         # 스캔 결과 Column의 Width 크기 (마지막 Column은 자동)
         self.treeWidget.setColumnWidth(0, 180)
         self.treeWidget.setColumnWidth(1, 80)
@@ -196,13 +203,7 @@ class WindowClass(QMainWindow, form_class):
     
     
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    win = WindowClass()
-    
-    # setup stylesheet
-    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
-    # or in new API
-    app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt5'))
-
-    win.show()
-    app.exec_()
+   app = QApplication(sys.argv)
+   myWindow = WindowClass()
+   myWindow.show()
+   app.exec_()
