@@ -51,9 +51,6 @@ def FindCharacter(tags_num): # tags_num은 추출한 태그 5개
 
 # 캐릭터와 태그의 Dictionary List 추출
 def GetTagSummonCharacter(tags_num, filter):
-    # 부분집합 떄문에 강제 설정한 태그 지워야함
-    # tags_num = [3, 4, 8, 9, 17]
-    
     cleanList = list(FindListAll(tags_num, filter)) # 추출한 태그를 바탕으로 가능한 캐릭터 리스트 전부 추출
     
     rootDir = os.path.dirname(__file__)

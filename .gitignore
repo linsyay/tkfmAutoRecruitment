@@ -8,3 +8,6 @@ screenshot.png
 build/
 dist/
 tkauto.egg-info/
+
+# Tag 자동화
+CreateTag/
